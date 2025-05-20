@@ -11,9 +11,10 @@
       "config": {
         "maxLambdaSize": "15mb",
         "includeFiles": [
-          "requirements.txt"
+          "requirements.txt",
+          "backend/**/*.py"
         ],
-        "maxDuration": 60,
+        "maxDuration": 300,
         "memory": 3008
       }
     }

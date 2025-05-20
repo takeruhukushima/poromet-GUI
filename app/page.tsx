@@ -41,8 +41,8 @@ interface AnalysisResult {
 }
 
 // API endpoint
-const API_URL = "http://localhost:8000/analyze"
-const BASE_URL = "http://localhost:8000"
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/analyze"
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000"
 
 const parseAnalysisResults = (data: any): AnalysisResult => {
   const outputDir = data.output_directory.split("/").pop() || "" // Get the last part of the path
