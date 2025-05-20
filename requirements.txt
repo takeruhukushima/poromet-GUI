@@ -7,10 +7,9 @@ numpy==1.26.4  # Consider if you can use numpy-stubs instead for type hints
 # scikit-image==0.22.0
 # matplotlib is large, consider if you can use a lighter alternative
 # matplotlib==3.8.2
-pillow-simd==10.1.0  # Faster alternative to Pillow
+Pillow==9.5.0  # Replaced pillow-simd with standard Pillow
 pydantic==2.6.1
 
 # Add these for better performance
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
-python-multipart==0.0.6
