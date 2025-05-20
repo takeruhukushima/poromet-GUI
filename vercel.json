@@ -3,10 +3,22 @@
   "builds": [
     {
       "src": "api/backend.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "includeFiles": [
+          "requirements.txt"
+        ]
+      }
     }
   ],
   "routes": [
     { "src": "/(.*)", "dest": "/api/backend.py" }
-  ]
+  ],
+  "functions": {
+    "api/backend.py": {
+      "maxDuration": 60,
+      "memory": 3008
+    }
+  }
 }

@@ -1,11 +1,16 @@
 fastapi==0.104.1
 mangum==0.17.0
 python-multipart==0.0.6
-uvicorn==0.24.0
-numpy==1.26.4
-scikit-image==0.22.0
-# Temporarily removing porespy due to compatibility issues
-# porespy==1.5.0
-matplotlib==3.8.2
-pillow==10.1.0
+uvicorn[standard]==0.24.0
+numpy==1.26.4  # Consider if you can use numpy-stubs instead for type hints
+# scikit-image is very large, consider if you can use specific functions or lighter alternatives
+# scikit-image==0.22.0
+# matplotlib is large, consider if you can use a lighter alternative
+# matplotlib==3.8.2
+pillow-simd==10.1.0  # Faster alternative to Pillow
 pydantic==2.6.1
+
+# Add these for better performance
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
