@@ -1,5 +1,0 @@
-Pore Size Analysis
-Dimensions: 1280×960px
-Pixel size: 4.960 nm/px
-Average diameter: 77.970 nm
-Mode diameter: 79.018 nm

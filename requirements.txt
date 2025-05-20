@@ -1,9 +1,10 @@
 fastapi==0.104.1
 uvicorn==0.24.0
-porespy==2.0.0
-numpy==1.24.3
-scikit-image==0.21.0
-matplotlib==3.7.1
+numpy==1.26.4
+opencv-python-headless==4.9.0.80
+scikit-image==0.22.0
+matplotlib==3.8.2
 mangum==0.17.0
 python-multipart==0.0.6
-pillow==10.0.0
+pillow==10.1.0
+--only-binary=:all:  # This helps with binary package installation
