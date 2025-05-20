@@ -12,7 +12,9 @@
         "maxLambdaSize": "15mb",
         "includeFiles": [
           "requirements.txt"
-        ]
+        ],
+        "maxDuration": 60,
+        "memory": 3008
       }
     }
   ],
@@ -25,11 +27,5 @@
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ],
-  "functions": {
-    "api/backend.py": {
-      "maxDuration": 60,
-      "memory": 3008
-    }
-  }
+  ]
 }
