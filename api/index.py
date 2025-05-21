@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from mangum import Mangum
 
 # Initialize FastAPI
 app = FastAPI()
@@ -14,8 +13,4 @@ async def health_check():
 async def root():
     return {"message": "Hello World"}
 
-# Create handler for Vercel
-handler = Mangum(app, lifespan="off")
-
-# Export the handler for Vercel
-__all__ = ["handler"]
+# Vercel will look for the 'app' instance by convention.
