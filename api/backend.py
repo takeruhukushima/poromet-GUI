@@ -1,11 +1,13 @@
-from fastapi import FastAPI, UploadFile, File, Query, Request
+import os
+from fastapi import FastAPI, UploadFile, File, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-import uvicorn
 
-# Initialize FastAPI with minimum settings
+# Initialize FastAPI
 app = FastAPI(
     title="Pore Analysis API",
+    description="API for analyzing pore images",
+    version="1.0.0",
     docs_url=None,
     redoc_url=None,
     openapi_url=None
@@ -20,7 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Health check endpoint
+# Health check endpoints
 @app.get("/")
 async def root():
     return {"status": "ok", "service": "pore-analysis-api"}
@@ -28,6 +30,11 @@ async def root():
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
+# Simple test endpoint
+@app.get("/test")
+async def test_endpoint():
+    return {"message": "API is working!"}
 
 # Analyze endpoint
 @app.post("/analyze")
@@ -37,11 +44,10 @@ async def analyze_image(
     max_diam_nm: int = Query(80, gt=0),
     thresh_mag: float = Query(1.8, gt=0)
 ):
-    # For now, return mock data to test the API
+    # For now, return mock data
     return {
         "status": "success",
         "filename": file.filename,
-        "analysis": "This is a mock response. The API is working but running in mock mode.",
         "parameters": {
             "magnification": magnification,
             "max_diam_nm": max_diam_nm,
@@ -58,12 +64,4 @@ async def analyze_image(
 from mangum import Mangum
 
 # Create handler for Vercel
-handler = Mangum(
-    app,
-    lifespan="off",
-    api_gateway_base_path="/api"
-)
-
-# For local testing
-if __name__ == "__main__":
-    uvicorn.run("backend:app", host="0.0.0.0", port=8000, reload=True)
+handler = Mangum(app, api_gateway_base_path="/api")
