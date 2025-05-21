@@ -13,9 +13,17 @@ from typing import Optional
 import os
 import io
 import tempfile
+import json
 
 # Initialize FastAPI
 app = FastAPI(title="Pore Analysis API")
+
+# Mock the analyzer for now
+try:
+    from app.analyzer import analyzer
+except ImportError:
+    print("Warning: Analyzer module not found. Running in mock mode.")
+    analyzer = None
 
 # Configure CORS
 app.add_middleware(
@@ -46,55 +54,22 @@ async def analyze_image(
     max_diam_nm: int = Query(80, gt=0),
     thresh_mag: float = Query(1.8, gt=0)
 ):
-    try:
-        # Import analyzer
-        try:
-            from app.analyzer import analyzer
-            from app.main import app as main_app
-        except ImportError as e:
-            raise HTTPException(
-                status_code=500,
-                detail=f"Failed to import analyzer: {str(e)}. Python path: {sys.path}"
-            )
-        
-        # Create a temporary file
-        temp_dir = Path(tempfile.mkdtemp())
-        temp_file_path = temp_dir / file.filename
-        
-        try:
-            # Save uploaded file
-            with open(temp_file_path, "wb") as f:
-                content = await file.read()
-                f.write(content)
-            
-            # Call the analyzer
-            img = analyzer.analyze_image(
-                str(temp_file_path),
-                magnification=magnification,
-                max_diam_nm=max_diam_nm,
-                thresh_mag=thresh_mag
-            )
-            
-            # Process results (adjust based on your analyzer's return type)
-            return {
-                "status": "success",
-                "filename": file.filename,
-                "analysis": "Analysis results here"
-            }
-            
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
-            
-        finally:
-            # Clean up
-            try:
-                temp_file_path.unlink()
-                temp_dir.rmdir()
-            except Exception as e:
-                print(f"Warning: Failed to clean up temp files: {e}")
-                
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    # For now, return mock data to test the API
+    return {
+        "status": "success",
+        "filename": file.filename,
+        "analysis": "This is a mock response. The API is working but running in mock mode.",
+        "parameters": {
+            "magnification": magnification,
+            "max_diam_nm": max_diam_nm,
+            "thresh_mag": thresh_mag
+        },
+        "results": {
+            "average_diameter": 45.6,
+            "mode_diameter": 42.1,
+            "porosity": 0.65
+        }
+    }
 
 # For Vercel
 from mangum import Mangum
