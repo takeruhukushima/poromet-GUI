@@ -1,7 +1,10 @@
 import os
-from fastapi import FastAPI, UploadFile, File, Query
+from fastapi import FastAPI, UploadFile, File, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
+from fastapi.staticfiles import StaticFiles
+from mangum import Mangum
+import uvicorn
 
 # Initialize FastAPI
 app = FastAPI(
@@ -60,11 +63,12 @@ async def analyze_image(
         }
     }
 
-# For Vercel
-from mangum import Mangum
-
 # Create handler for Vercel
 handler = Mangum(app, api_gateway_base_path="/api")
 
-# Explicitly export the handler for Vercel
-__all__ = ["handler"]
+# For local development
+if __name__ == "__main__":
+    uvicorn.run("backend:app", host="0.0.0.0", port=8000, reload=True)
+
+# Export the handler for Vercel
+__all__ = ["app", "handler"]
