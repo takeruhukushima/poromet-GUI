@@ -64,11 +64,11 @@ async def analyze_image(
     }
 
 # Create handler for Vercel
-handler = Mangum(app, api_gateway_base_path="/api")
+handler = Mangum(app, lifespan="off", api_gateway_base_path="/api")
 
 # For local development
 if __name__ == "__main__":
     uvicorn.run("backend:app", host="0.0.0.0", port=8000, reload=True)
 
 # Export the handler for Vercel
-__all__ = ["app", "handler"]
+__all__ = ["handler"]

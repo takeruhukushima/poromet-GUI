@@ -1,8 +1,0 @@
-{
-  "exclude": [
-    "numpy",
-    "scikit-image",
-    "matplotlib",
-    "pillow"
-  ]
-}
