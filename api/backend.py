@@ -1,16 +1,18 @@
-import os
+# This is required for Vercel to properly import the app
 import sys
-import io
-import tempfile
 from pathlib import Path
+
+# Add the current directory to the Python path
+sys.path.append(str(Path(__file__).parent))
+
+# Import the FastAPI app after modifying the path
 from fastapi import FastAPI, UploadFile, File, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from typing import Optional
-
-# Add backend directory to Python path
-backend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'backend')
-sys.path.insert(0, backend_path)
+import os
+import io
+import tempfile
 
 # Initialize FastAPI
 app = FastAPI(title="Pore Analysis API")
@@ -101,4 +103,4 @@ handler = Mangum(app, lifespan="off")
 # For local testing
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("backend:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)

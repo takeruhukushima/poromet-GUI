@@ -6,17 +6,8 @@
       "use": "@vercel/next"
     },
     {
-      "src": "api/backend.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "includeFiles": [
-          "requirements.txt",
-          "backend/**/*.py"
-        ],
-        "maxDuration": 300,
-        "memory": 3008
-      }
+      "src": "api/vercel.json",
+      "use": "@vercel/python"
     }
   ],
   "routes": [
