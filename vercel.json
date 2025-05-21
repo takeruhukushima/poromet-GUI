@@ -6,19 +6,18 @@
       "use": "@vercel/next"
     },
     {
-      "src": "api/backend.py",
+      "src": "api/index.py",
       "use": "@vercel/python",
       "config": {
         "runtime": "python3.9",
-        "maxLambdaSize": "15mb",
-        "includeFiles": "api/**/*.py"
+        "maxLambdaSize": "15mb"
       }
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/backend.py"
+      "dest": "/api/index.py"
     },
     {
       "src": "/(.*)",
