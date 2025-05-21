@@ -1,37 +1,14 @@
-# This is required for Vercel to properly import the app
-import sys
-from pathlib import Path
-
-# Add the current directory to the Python path
-sys.path.append(str(Path(__file__).parent))
-
-# Import the FastAPI app after modifying the path
-from fastapi import FastAPI, UploadFile, File, HTTPException, Query
+from fastapi import FastAPI, UploadFile, File, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from typing import Optional
-import os
-import io
-import tempfile
-import json
 
-# Initialize FastAPI
-app = FastAPI(title="Pore Analysis API")
-
-# Mock the analyzer for now
-try:
-    from app.analyzer import analyzer
-except ImportError:
-    print("Warning: Analyzer module not found. Running in mock mode.")
-    analyzer = None
+# Initialize FastAPI with minimum settings
+app = FastAPI(title="Pore Analysis API", docs_url=None, redoc_url=None)
 
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "https://*.vercel.app"
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -73,9 +50,4 @@ async def analyze_image(
 
 # For Vercel
 from mangum import Mangum
-handler = Mangum(app, lifespan="off")
-
-# For local testing
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+handler = Mangum(app)
