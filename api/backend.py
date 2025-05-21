@@ -65,3 +65,6 @@ from mangum import Mangum
 
 # Create handler for Vercel
 handler = Mangum(app, api_gateway_base_path="/api")
+
+# Explicitly export the handler for Vercel
+__all__ = ["handler"]
