@@ -1,9 +1,15 @@
-from fastapi import FastAPI, UploadFile, File, Query
+from fastapi import FastAPI, UploadFile, File, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+import uvicorn
 
 # Initialize FastAPI with minimum settings
-app = FastAPI(title="Pore Analysis API", docs_url=None, redoc_url=None)
+app = FastAPI(
+    title="Pore Analysis API",
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None
+)
 
 # Configure CORS
 app.add_middleware(
@@ -50,4 +56,14 @@ async def analyze_image(
 
 # For Vercel
 from mangum import Mangum
-handler = Mangum(app)
+
+# Create handler for Vercel
+handler = Mangum(
+    app,
+    lifespan="off",
+    api_gateway_base_path="/api"
+)
+
+# For local testing
+if __name__ == "__main__":
+    uvicorn.run("backend:app", host="0.0.0.0", port=8000, reload=True)
